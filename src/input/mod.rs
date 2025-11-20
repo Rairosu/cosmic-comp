@@ -1009,44 +1009,47 @@ impl State {
                             activate_action = match gesture_state.fingers {
                                 3 => None, // TODO: 3 finger gestures
                                 4 => {
-                                    if self.common.config.cosmic_conf.workspaces.workspace_layout
-                                        == WorkspaceLayout::Horizontal
+                                    match self.common.config.cosmic_conf.workspaces.workspace_layout
                                     {
-                                        match gesture_state.direction {
-                                            Some(Direction::Left) => {
-                                                if natural_scroll {
-                                                    Some(SwipeAction::NextWorkspace)
-                                                } else {
-                                                    Some(SwipeAction::PrevWorkspace)
+                                        WorkspaceLayout::Horizontal => {
+                                            match gesture_state.direction {
+                                                Some(Direction::Left) => {
+                                                    if natural_scroll {
+                                                        Some(SwipeAction::NextWorkspace)
+                                                    } else {
+                                                        Some(SwipeAction::PrevWorkspace)
+                                                    }
                                                 }
-                                            }
-                                            Some(Direction::Right) => {
-                                                if natural_scroll {
-                                                    Some(SwipeAction::PrevWorkspace)
-                                                } else {
-                                                    Some(SwipeAction::NextWorkspace)
+                                                Some(Direction::Right) => {
+                                                    if natural_scroll {
+                                                        Some(SwipeAction::PrevWorkspace)
+                                                    } else {
+                                                        Some(SwipeAction::NextWorkspace)
+                                                    }
                                                 }
+                                                _ => None, // TODO: Other actions
                                             }
-                                            _ => None, // TODO: Other actions
                                         }
-                                    } else {
-                                        match gesture_state.direction {
-                                            Some(Direction::Up) => {
-                                                if natural_scroll {
-                                                    Some(SwipeAction::NextWorkspace)
-                                                } else {
-                                                    Some(SwipeAction::PrevWorkspace)
+                                        WorkspaceLayout::Vertical => {
+                                            match gesture_state.direction {
+                                                Some(Direction::Up) => {
+                                                    if natural_scroll {
+                                                        Some(SwipeAction::NextWorkspace)
+                                                    } else {
+                                                        Some(SwipeAction::PrevWorkspace)
+                                                    }
                                                 }
-                                            }
-                                            Some(Direction::Down) => {
-                                                if natural_scroll {
-                                                    Some(SwipeAction::PrevWorkspace)
-                                                } else {
-                                                    Some(SwipeAction::NextWorkspace)
+                                                Some(Direction::Down) => {
+                                                    if natural_scroll {
+                                                        Some(SwipeAction::PrevWorkspace)
+                                                    } else {
+                                                        Some(SwipeAction::NextWorkspace)
+                                                    }
                                                 }
+                                                _ => None, // TODO: Other actions
                                             }
-                                            _ => None, // TODO: Other actions
                                         }
+                                        WorkspaceLayout::None => None,
                                     }
                                 }
                                 _ => None,

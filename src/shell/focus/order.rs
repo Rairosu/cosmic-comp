@@ -161,10 +161,10 @@ fn render_input_order_internal<R: 'static>(
             };
 
             let offset = Point::<i32, Logical>::from(match (layout, *previous_idx < current.1) {
-                (WorkspaceLayout::Vertical, true) => {
+                (WorkspaceLayout::Vertical | WorkspaceLayout::None, true) => {
                     (0, (-output_size.h as f32 * percentage).round() as i32)
                 }
-                (WorkspaceLayout::Vertical, false) => {
+                (WorkspaceLayout::Vertical | WorkspaceLayout::None, false) => {
                     (0, (output_size.h as f32 * percentage).round() as i32)
                 }
                 (WorkspaceLayout::Horizontal, true) => {
@@ -178,8 +178,12 @@ fn render_input_order_internal<R: 'static>(
             (
                 Some((previous, has_fullscreen, offset)),
                 Point::<i32, Logical>::from(match (layout, *previous_idx < current.1) {
-                    (WorkspaceLayout::Vertical, true) => (0, output_size.h + offset.y),
-                    (WorkspaceLayout::Vertical, false) => (0, -(output_size.h - offset.y)),
+                    (WorkspaceLayout::Vertical | WorkspaceLayout::None, true) => {
+                        (0, output_size.h + offset.y)
+                    }
+                    (WorkspaceLayout::Vertical | WorkspaceLayout::None, false) => {
+                        (0, -(output_size.h - offset.y))
+                    }
                     (WorkspaceLayout::Horizontal, true) => (output_size.w + offset.x, 0),
                     (WorkspaceLayout::Horizontal, false) => (-(output_size.w - offset.x), 0),
                 }),

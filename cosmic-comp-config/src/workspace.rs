@@ -31,6 +31,7 @@ pub enum WorkspaceLayout {
     #[default]
     Vertical,
     Horizontal,
+    None,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
